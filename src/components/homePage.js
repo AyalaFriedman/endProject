@@ -16,6 +16,7 @@ export default function HomePage() {
     const navigateToMedicince = () => {
         history.push('/medicince');
     }
+
     const navigateToIndices = () => {
         history.push('/indices');
     }

@@ -13,9 +13,13 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import PermIdentityTwoToneIcon from '@mui/icons-material/PermIdentityTwoTone';
 import { useHistory } from "react-router-dom";
 import HomeIcon from '@mui/icons-material/Home';
+import store from '../store';
+import { useEffect, useState } from "react";
 
 export default function AccountMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [first, setFirst] = React.useState("");
+    const [firstName, setfirstName] = React.useState("");
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -25,11 +29,17 @@ export default function AccountMenu() {
         setAnchorEl(null);
     };
 
+    useEffect(() => {
+          const firstProfile = store.getState().user.firstName[0];
+          setFirst(firstProfile);
+          setfirstName(store.getState().user.firstName);
+    }, [])
+
     const history = useHistory();
-    const navigatToEdit =()=> {
+    const navigatToEdit = () => {
         history.push('/edit')
     }
-    const navigatToHome =()=> {
+    const navigatToHome = () => {
         history.push('/home')
     }
     const navigatToLogIn = () => {
@@ -38,12 +48,10 @@ export default function AccountMenu() {
     const navigatToReminderManagement = () => {
         history.push('/reminderManagement');
     }
-    
+
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-                {/* <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-                <Typography sx={{ minWidth: 100 }}>Profile</Typography> */}
                 <Tooltip title="Account settings">
                     <IconButton
                         onClick={handleClick}
@@ -53,7 +61,7 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>P</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}>{first}</Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -93,17 +101,17 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem>
-                    <PermIdentityTwoToneIcon color="action" /> Profile
+                    <PermIdentityTwoToneIcon color="action" /> {firstName}
                 </MenuItem>
                 <MenuItem onClick={navigatToEdit} >
-                    < ModeEditIcon color="action"/>   עריכת הפרטים שלי
+                    < ModeEditIcon color="action" />   עריכת הפרטים שלי
                 </MenuItem>
                 <Divider />
                 <MenuItem onClick={navigatToHome}>
                     <ListItemIcon>
                         <HomeIcon fontSize="small" />
                     </ListItemIcon>
-                   דף הבית 
+                    דף הבית
                 </MenuItem>
                 <MenuItem onClick={navigatToReminderManagement}>
                     <ListItemIcon>
